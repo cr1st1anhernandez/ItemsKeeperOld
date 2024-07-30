@@ -26,3 +26,13 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+jar {
+    archiveBaseName.set('itemskeeper-backend')
+    archiveVersion.set('1.0.0')
+    manifest {
+        attributes(
+            'Main-Class': 'com.cr1st1an.itemskeeper.backend.Application'
+        )
+    }
+}
