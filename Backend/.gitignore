@@ -35,3 +35,7 @@ out/
 
 ### VS Code ###
 .vscode/
+
+# Jwt
+jwtKeys/
+application-local.properties
