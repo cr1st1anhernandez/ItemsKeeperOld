@@ -1,5 +1,7 @@
 package com.cr1st1an.itemskeeper.backend.services.impl;
 
+import com.cr1st1an.itemskeeper.backend.persistence.entities.Role;
+import com.cr1st1an.itemskeeper.backend.persistence.respositories.RoleRepository;
 import com.cr1st1an.itemskeeper.backend.persistence.respositories.UserRepository;
 import com.cr1st1an.itemskeeper.backend.services.models.dtos.LoginDTO;
 import com.cr1st1an.itemskeeper.backend.services.models.dtos.ResponseDTO;
@@ -11,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -26,6 +29,9 @@ public class AuthServiceImpl implements IAuthService {
 
     @Autowired
     private UserValidations userValidations;
+
+    @Autowired
+    private RoleRepository roleRepository;
 
     @Override
     public HashMap<String, String> login(LoginDTO loginRequest) throws Exception {
@@ -81,7 +87,9 @@ public class AuthServiceImpl implements IAuthService {
 
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
             user.setPassword(encoder.encode(user.getPassword()));
-            userRepository.save(user);
+            Role userRole = roleRepository.findByName("USER")
+                    .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+            user.setRoles(Collections.singleton(userRole));
             response.setMessage("User created successfully!");
             return response;
         } catch (Exception e) {
