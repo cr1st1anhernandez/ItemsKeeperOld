@@ -1,6 +1,6 @@
-import { Input } from "@nextui-org/input";
-import { Kbd } from "@nextui-org/kbd";
-import { Link } from "@nextui-org/link";
+import { Button } from '@nextui-org/button';
+import { Input } from '@nextui-org/input';
+import { Link } from '@nextui-org/link';
 import {
   NavbarBrand,
   NavbarContent,
@@ -9,30 +9,25 @@ import {
   NavbarMenuItem,
   NavbarMenuToggle,
   Navbar as NextUINavbar,
-} from "@nextui-org/navbar";
-import { BoxesIcon, SearchIcon } from "lucide-react";
-import NextLink from "next/link";
+} from '@nextui-org/navbar';
+import { BoxesIcon, SearchIcon } from 'lucide-react';
+import NextLink from 'next/link';
 
-import { ThemeSwitch } from "@/components/theme-switch";
-import { siteConfig } from "@/config/site";
+import { ThemeSwitch } from '@/components/theme-switch';
+import { siteConfig } from '@/config/site';
 
 export const Navbar = () => {
   const searchInput = (
     <Input
       aria-label="Search"
       classNames={{
-        inputWrapper: "bg-default-100",
-        input: "text-sm",
+        inputWrapper: 'bg-default-100 w-full',
+        input: 'text-sm w-full',
       }}
-      endContent={
-        <Kbd className="hidden lg:inline-block" keys={["command"]}>
-          K
-        </Kbd>
-      }
       labelPlacement="outside"
       placeholder="Search..."
       startContent={
-        <SearchIcon className="text-base text-default-400 pointer-events-none flex-shrink-0" />
+        <SearchIcon className="pointer-events-none flex-shrink-0 text-base text-default-400" />
       }
       type="search"
       variant="bordered"
@@ -40,27 +35,33 @@ export const Navbar = () => {
   );
 
   return (
-    <NextUINavbar maxWidth="xl" position="sticky">
+    <NextUINavbar className="absolute top-0" maxWidth="full" position="sticky">
       <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
-        <NavbarBrand as="li" className="gap-3 max-w-fit">
-          <NextLink className="flex justify-start items-center gap-1" href="/">
+        <NavbarBrand as="li" className="max-w-fit gap-3">
+          <NextLink className="flex items-center justify-start gap-1" href="/">
             <BoxesIcon />
             <p className="font-bold text-inherit">ITEMS KEEPER</p>
           </NextLink>
         </NavbarBrand>
       </NavbarContent>
-
-      <NavbarContent
-        className="hidden sm:flex basis-1/5 sm:basis-full"
-        justify="end"
-      >
-        <NavbarItem className="hidden sm:flex gap-2">
+      <NavbarContent className="hidden basis-1/5 sm:flex sm:basis-full" justify="end">
+        <NavbarItem className="hidden gap-2 sm:flex">
           <ThemeSwitch />
         </NavbarItem>
         <NavbarItem className="hidden lg:flex">{searchInput}</NavbarItem>
+        <NavbarItem className="hidden gap-2 sm:flex">
+          <Button as={Link} color="primary" href="/auth/login">
+            Login
+          </Button>
+        </NavbarItem>
+        <NavbarItem className="hidden gap-2 sm:flex">
+          <Button as={Link} color="primary" href="/auth/register" variant="flat">
+            Register
+          </Button>
+        </NavbarItem>
       </NavbarContent>
 
-      <NavbarContent className="sm:hidden basis-1 pl-4" justify="end">
+      <NavbarContent className="basis-1 pl-4 sm:hidden" justify="end">
         <ThemeSwitch />
         <NavbarMenuToggle />
       </NavbarContent>
@@ -73,10 +74,10 @@ export const Navbar = () => {
               <Link
                 color={
                   index === 2
-                    ? "primary"
+                    ? 'primary'
                     : index === siteConfig.navMenuItems.length - 1
-                      ? "danger"
-                      : "foreground"
+                      ? 'danger'
+                      : 'foreground'
                 }
                 href="#"
                 size="lg"

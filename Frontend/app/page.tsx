@@ -1,9 +1,12 @@
-import { siteConfig } from "@/config/site";
+import { LatestCollections } from '@/components/LatestCollections';
 
 export default function Home() {
   return (
-    <section className="grid place-items-center py-8 md:py-10">
-      <h1 className="text-4xl md:text-6xl">{siteConfig.name}</h1>
+    <section className="min-h-[100dvh] w-full py-8 md:py-10">
+      <div className="flex h-full w-full">
+        <div className="h-screen min-h-screen w-32 bg-neutral-900">Sidebar</div>
+        <LatestCollections />
+      </div>
     </section>
   );
 }
