@@ -37,7 +37,7 @@ public class AuthServiceImpl implements IAuthService {
     public HashMap<String, String> login(LoginDTO loginRequest) throws Exception {
         try {
             HashMap<String, String> jwt = new HashMap<>();
-            Optional<User> user = userRepository.findByName(loginRequest.getName());
+            Optional<User> user = userRepository.findByEmail(loginRequest.getEmail());
 
             if (user.isEmpty()) {
                 jwt.put("error", "User not registered!");
