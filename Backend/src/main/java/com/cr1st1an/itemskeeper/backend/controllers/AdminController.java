@@ -1,45 +1,64 @@
 package com.cr1st1an.itemskeeper.backend.controllers;
 
-import com.cr1st1an.itemskeeper.backend.persistence.entities.Role;
 import com.cr1st1an.itemskeeper.backend.persistence.entities.User;
-import com.cr1st1an.itemskeeper.backend.persistence.respositories.UserRepository;
-import com.cr1st1an.itemskeeper.backend.persistence.respositories.RoleRepository;
+import com.cr1st1an.itemskeeper.backend.services.impl.AdminServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/admin")
 public class AdminController {
 
     @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private RoleRepository roleRepository;
+    private AdminServiceImpl adminService;
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/assign-role")
     public ResponseEntity<?> assignRole(@RequestParam String username, @RequestParam String roleName) {
-        Optional<User> userOptional = userRepository.findByName(username);
-        if (userOptional.isEmpty()) {
-            return ResponseEntity.badRequest().body("User not found");
+        String result = adminService.assignRole(username, roleName);
+        if (result.equals("Role assigned successfully")) {
+            return ResponseEntity.ok(result);
         }
-
-        Optional<Role> roleOptional = roleRepository.findByName(roleName);
-        if (roleOptional.isEmpty()) {
-            return ResponseEntity.badRequest().body("Role not found");
-        }
-
-        User user = userOptional.get();
-        Role role = roleOptional.get();
-        user.getRoles().add(role);
-        userRepository.save(user);
-
-        return ResponseEntity.ok("Role assigned successfully");
+        return ResponseEntity.badRequest().body(result);
     }
-}
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping("/remove-role")
+    public ResponseEntity<?> removeRole(@RequestParam String username, @RequestParam String roleName) {
+        String result = adminService.removeRole(username, roleName);
+        if (result.equals("Role removed successfully")) {
+            return ResponseEntity.ok(result);
+        }
+        return ResponseEntity.badRequest().body(result);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/users")
+    public ResponseEntity<?> getUsers() {
+        Iterable<User> users = adminService.getUsers();
+        return ResponseEntity.ok(users);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/block/{userId}")
+    public ResponseEntity<?> blockUser(@PathVariable Long userId) {
+        String result = adminService.blockUser(userId);
+        if (result.equals("User blocked successfully")) {
+            return ResponseEntity.ok(result);
+        }
+        return ResponseEntity.badRequest().body(result);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/unblock/{userId}")
+    public ResponseEntity<?> unblockUser(@PathVariable Long userId) {
+        String result = adminService.unblockUser(userId);
+        if (result.equals("User unblocked successfully")) {
+            return ResponseEntity.ok(result);
+        }
+        return ResponseEntity.badRequest().body(result);
+    }}
 
