@@ -4,7 +4,9 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
@@ -13,7 +15,18 @@ import java.util.Set;
 @Entity
 @Table(name = "users")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class User {
+
+    public User(Long id, String email, String name, LocalDateTime createdAt, boolean active, Set<Role>roles ) {
+        this.id = id;
+        this.email = email;
+        this.name = name;
+        this.createdAt = createdAt;
+        this.active = active;
+        this.roles = roles;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
