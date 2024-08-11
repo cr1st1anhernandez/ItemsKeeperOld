@@ -4,8 +4,9 @@ import { Metadata, Viewport } from 'next';
 
 import { Providers } from './providers';
 
+import { DockBar } from '@/components/Dock';
 import { Navbar } from '@/components/navbar';
-import { fontSans } from '@/config/fonts';
+import { SideBar } from '@/components/SideBar';
 import { siteConfig } from '@/config/site';
 
 export const metadata: Metadata = {
@@ -32,13 +33,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head />
       <body
         className={clsx(
-          'min-h-[100dvh] bg-background antialiased orange-light dark:orange-dark',
-          fontSans.variable,
+          'min-h-[100dvh] w-full bg-background antialiased orange-light dark:orange-dark',
         )}
       >
         <Providers themeProps={{ attribute: 'class', defaultTheme: 'dark' }}>
-          <Navbar />
-          <main>{children}</main>
+          <div className="relative flex min-h-[100dvh] w-full flex-col">
+            <Navbar />
+            <div className="flex h-full w-full">
+              <SideBar />
+              <main className="h-full w-full px-6">{children}</main>
+            </div>
+            <DockBar />
+          </div>
         </Providers>
       </body>
     </html>

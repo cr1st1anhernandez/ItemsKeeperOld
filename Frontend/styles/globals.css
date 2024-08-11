@@ -5,3 +5,12 @@
 * {
   font-family: 'Poppins', sans-serif;
 }
+
+::selection {
+  background: orange;
+  color: black;
+}
+
+html {
+  scroll-behavior: smooth;
+}

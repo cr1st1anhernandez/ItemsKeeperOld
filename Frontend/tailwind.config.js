@@ -13,6 +13,7 @@ module.exports = {
   darkMode: 'class',
   darkMode: 'class',
   plugins: [
+    require('tailwindcss-animated'),
     nextui({
       themes: {
         'orange-dark': {
@@ -44,11 +45,6 @@ module.exports = {
               medium: '6px',
               large: '8px',
             },
-            borderWidth: {
-              small: '1px',
-              medium: '2px',
-              large: '3px',
-            },
           },
         },
         'orange-light': {
@@ -79,11 +75,6 @@ module.exports = {
               small: '4px',
               medium: '6px',
               large: '8px',
-            },
-            borderWidth: {
-              small: '1px',
-              medium: '2px',
-              large: '3px',
             },
           },
         },
